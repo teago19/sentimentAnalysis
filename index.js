@@ -1,55 +1,26 @@
 var natural = require ('natural');
-
-var trainGroup = [
-	{
-		sentence: "i didn't like it",
-		classification: "negative"
-	},
-	{
-		sentence: "i expected more",
-		classification: "negative"
-	},
-	{
-		sentence: "i liked it",
-		classification: "positive"
-	},
-	{
-		sentence: "i liked it",
-		classification: "positive"
-	},
-	{
-		sentence: "i enjoyed it",
-		classification: "positive"
-	}
-]
-
-var testGroup =[
-	{
-		sentence: "didn't like it",
-		classification: "negative"
-	},
-	{
-		sentence: "it was boring",
-		classification: "negative"
-	},
-	{
-		sentence: "liked it",
-		classification: "positive"
-	},
-	{
-		sentence: "awesome!",
-		classification: "positive"
-	}
-]
-
-
 tokenizer = new natural.WordTokenizer();
-console.log(tokenizer.tokenize(""));
-
 classifier = new natural.BayesClassifier();
-for(var i=0; i<trainGroup.length; i++){
-	classifier.addDocument(trainGroup[i].sentence,trainGroup[i].classification);
-}
 
+var reviews = require('./reviews.json');
+var trainGroup = reviews.slice(0,400);
+var testGroup = reviews.slice(401,600);
+
+for(var i=0; i<trainGroup.length;i++)
+{
+	if(trainGroup[i].text){
+		trainGroup[i].text = tokenizer.tokenize(trainGroup[i].text);
+		trainGroup[i].text = trainGroup[i].text.join(" ");
+
+		classifier.addDocument(trainGroup[i].text,trainGroup[i].class);
+	}
+}
 classifier.train();
+
+for(var i=0; i<testGroup.length; i++)
+{
+	if(testGroup[i].text){
+		console.log(testGroup[i].class+ ' '+ classifier.classify(testGroup[i].text));
+	}
+}
 
