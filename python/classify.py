@@ -74,10 +74,14 @@ def classify_and_evaluate(reviews, feature_extractor=word_feats):
     pos_features = []
     neg_features = []
     for review in pos_reviews:
-        pos_features.append((feature_extractor(review['text'].split(' ')), 'pos'))
+        split_reviews = review['text'].split(' ')
+        split_reviews = [x for x in split_reviews if x]
+        pos_features.append((feature_extractor(split_reviews), 'pos'))
 
     for review in neg_reviews:
-        neg_features.append((feature_extractor(review['text'].split(' ')), 'neg'))
+        split_reviews = review['text'].split(' ')
+        split_reviews = [x for x in split_reviews if x]
+        neg_features.append((feature_extractor(split_reviews), 'neg'))
 
     # divide groups
     pos_offset = int(math.floor(len(pos_reviews) * 3 / 4))
@@ -99,4 +103,4 @@ reviews = json.loads(f.read())
 
 reviews = prepare_data(reviews)
 
-classify_and_evaluate(reviews, feature_extractor=bigram_word_feats)
+classify_and_evaluate(reviews)
