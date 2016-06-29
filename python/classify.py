@@ -1,5 +1,6 @@
 import json
 import math
+import random
 
 import nltk
 from nltk.classify import NaiveBayesClassifier
@@ -54,6 +55,8 @@ reviews = map(remove_stop_words, reviews)
 reviews = map(clean_text, reviews)
 # reviews = map(remove_stop_words, reviews)
 
+random.shuffle(reviews)
+
 pos_reviews = filter(lambda x: x['class'] == 'POSITIVE', reviews)
 neg_reviews = filter(lambda x: x['class'] == 'NEGATIVE', reviews)
 
@@ -65,8 +68,6 @@ for review in pos_reviews:
 
 for review in neg_reviews:
     neg_features.append((word_feats(review['text'].split(' ')), 'neg'))
-
-# label features for tests
 
 # divide groups
 #   training: 0~400
