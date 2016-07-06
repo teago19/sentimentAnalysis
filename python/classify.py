@@ -10,6 +10,7 @@ from nltk.corpus import stopwords
 from nltk.metrics import BigramAssocMeasures
 from nltk.stem import PorterStemmer
 
+observed_element = 0
 
 def prepare_data(reviews):
     # run porter stemmer on every word
@@ -21,11 +22,17 @@ def prepare_data(reviews):
     reviews = filter(lambda x: x != {}, reviews)
     reviews = map(stem_text, reviews)
 
+    print('stemming: ' + reviews[observed_element]['text'] + '\n\n------------------------------------\n\n')
+
     # remove stopwords
     reviews = map(remove_stop_words, reviews)
 
+    print('stopwords: ' + reviews[observed_element]['text'] + '\n\n------------------------------------\n\n')
+
     # remove undesired patterns
     reviews = map(clean_text, reviews)
+
+    print('elementos inuteis: ' + reviews[observed_element]['text'] + '\n\n------------------------------------\n\n')
 
     return reviews
 
