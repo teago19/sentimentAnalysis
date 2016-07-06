@@ -22,6 +22,8 @@ def prepare_data(reviews):
     reviews = filter(lambda x: x != {}, reviews)
     reviews = map(stem_text, reviews)
 
+    print('classification: ' + reviews[observed_element]['class'] + '\n\n------------------------------------\n\n')
+
     print('stemming: ' + reviews[observed_element]['text'] + '\n\n------------------------------------\n\n')
 
     # remove stopwords
